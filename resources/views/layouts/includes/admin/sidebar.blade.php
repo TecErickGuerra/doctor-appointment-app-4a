@@ -49,7 +49,7 @@
         <ul id="hospital-dropdown" class="hidden py-2 space-y-2">
           <li>
             <a href="#" class="flex items-center w-full p-2 pl-11 text-white rounded-lg 
-               transition duration-75 hover:bg-gray-700 group">Ian Master</a>
+               transition duration-75 hover:bg-gray-700 group">Products</a>
           </li>
           <li>
             <a href="#" class="flex items-center w-full p-2 pl-11 text-white rounded-lg 
