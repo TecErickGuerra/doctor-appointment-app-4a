@@ -1,4 +1,4 @@
-<x-admin-layout title="Roles | Simify" :breadcrumbs="[
+<x-admin-layout title="Roles | Healthify" :breadcrumbs="[
     [
         'name' => 'Dashboard',
         'href' => route('admin.dashboard')
@@ -7,11 +7,12 @@
         'name' => 'Roles'
     ],
 ]">
+    {{-- Botón Nuevo en la esquina superior derecha --}}
     <x-slot name="action">
         <a href="{{ route('admin.roles.create') }}" 
-           class="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition-colors duration-200">
-            <i class="fas fa-plus"></i>
-            <span>Nuevo</span>
+           class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md">
+            <i class="fa-solid fa-plus mr-2"></i>
+            Nuevo
         </a>
     </x-slot>
 
