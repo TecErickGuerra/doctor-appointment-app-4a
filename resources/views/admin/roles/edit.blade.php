@@ -67,4 +67,18 @@
             </div>
         </div>
     </div>
+
+    @if (session('swal'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+            icon: '{{ session('swal.icon') }}',
+            title: '{{ session('swal.title') }}',
+            text: '{{ session('swal.text') }}',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#3085d6'
+        });
+    </script>
+    @endif
+
 </x-admin-layout>

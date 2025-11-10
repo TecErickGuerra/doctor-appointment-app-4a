@@ -41,5 +41,21 @@
         @stack('modals')
 
         @livewireScripts
+
+        <!-- SWEETALERT2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Mostrar alerta si hay mensaje flash -->
+        @if (session('swal'))
+            <script>
+                Swal.fire({
+                    icon: '{{ session('swal.icon') }}',
+                    title: '{{ session('swal.title') }}',
+                    text: '{{ session('swal.text') }}',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#3085d6'
+                });
+            </script>
+        @endif
     </body>
 </html>

@@ -13,7 +13,6 @@ class RolesController extends Controller
      */
     public function index()
     {
-        // Ya no necesitas el array hardcodeado, Livewire maneja la tabla
         return view('admin.roles.index');
     }
 
@@ -30,7 +29,6 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar datos
         $request->validate([
             'name' => 'required|string|max:255|unique:roles,name',
         ], [
@@ -39,13 +37,11 @@ class RolesController extends Controller
             'name.max' => 'El nombre no puede tener más de 255 caracteres.',
         ]);
 
-        // Crear el rol
         Role::create([
             'name' => $request->name,
             'guard_name' => 'web',
         ]);
 
-        // Redirigir con mensaje de éxito
         return redirect()
             ->route('admin.roles.index')
             ->with('success', 'Rol creado exitosamente.');
@@ -64,6 +60,13 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
+        // 🔒 Evitar que se editen los primeros 4 roles
+        if ($role->id <= 4) {
+            return redirect()
+                ->route('admin.roles.index')
+                ->with('error', 'No tienes permiso para editar este rol protegido.');
+        }
+
         return view('admin.roles.edit', compact('role'));
     }
 
@@ -72,7 +75,13 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        // Validar datos (ignorar el rol actual en la validación unique)
+        // Evitar edición de roles protegidos
+        if ($role->id <= 4) {
+            return redirect()
+                ->route('admin.roles.index')
+                ->with('error', 'Este rol está protegido y no puede ser modificado.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
         ], [
@@ -81,12 +90,20 @@ class RolesController extends Controller
             'name.max' => 'El nombre no puede tener más de 255 caracteres.',
         ]);
 
-        // Actualizar el rol
+        // Si el nombre no cambió, mostrar mensaje
+        if ($role->name === $request->name) {
+            session()->flash('swal', [
+                'icon' => 'info',
+                'title' => 'Sin cambios',
+                'text' => 'No se detectaron cambios.',
+            ]);
+            return redirect()->route('admin.roles.edit', $role);
+        }
+
         $role->update([
             'name' => $request->name,
         ]);
 
-        // Redirigir con mensaje de éxito
         return redirect()
             ->route('admin.roles.index')
             ->with('success', 'Rol actualizado exitosamente.');
@@ -97,8 +114,14 @@ class RolesController extends Controller
      */
     public function destroy(Role $role)
     {
+        // Evitar eliminación de roles protegidos
+        if ($role->id <= 4) {
+            return redirect()
+                ->route('admin.roles.index')
+                ->with('error', 'Este rol está protegido y no puede eliminarse.');
+        }
+
         try {
-            // Verificar si el rol tiene usuarios asignados (usando Spatie)
             $usersWithRole = \App\Models\User::role($role->name)->count();
         
             if ($usersWithRole > 0) {
@@ -107,7 +130,6 @@ class RolesController extends Controller
                     ->with('error', 'No se puede eliminar el rol porque tiene ' . $usersWithRole . ' usuario(s) asignado(s).');
             }
 
-            // Eliminar el rol
             $role->delete();
 
             return redirect()
