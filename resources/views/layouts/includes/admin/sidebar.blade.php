@@ -52,6 +52,17 @@
           <span class="ml-3">Roles y permisos</span>
         </a>
       </li>
+
+      <!-- Solo Usuarios (NUEVO) -->
+      <li>
+        <a href="{{ route('admin.usuarios.index') }}" 
+           class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group 
+           {{ request()->routeIs('admin.usuarios.*') ? 'bg-gray-100' : '' }}">
+          <i class="fa-solid fa-users w-5 h-5 text-gray-500"></i>
+          <span class="ml-3">Usuarios</span>
+        </a>
+      </li>
+
     </ul>
   </div>
 </aside>
