@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\RolesController;  // ← Cambiar a RolesController
+use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\TestController;
 use App\Http\Controllers\Admin\UserController;
 
@@ -13,7 +13,8 @@ Route::get('/admin', function () {
 Route::get('/admin/test', [TestController::class, 'index']);
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');  // ← Cambiar
+    // Rutas de roles
+    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
     Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
     Route::post('/roles', [RolesController::class, 'store'])->name('roles.store');
     Route::get('/roles/{role}', [RolesController::class, 'show'])->name('roles.show');
@@ -21,9 +22,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
     Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
 
-    // Rutas de usuarios (CRUD)
+    // Rutas COMPLETAS de usuarios (CRUD)
     Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
     Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+    Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
+    Route::get('/usuarios/{user}', [UserController::class, 'show'])->name('usuarios.show');
+    Route::get('/usuarios/{user}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
+    Route::put('/usuarios/{user}', [UserController::class, 'update'])->name('usuarios.update');
+    Route::delete('/usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
 });
 
 Route::middleware([

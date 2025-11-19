@@ -6,7 +6,7 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Role;
 
-class AdminDatatablesRoleTable extends DataTableComponent
+class RoleTable extends DataTableComponent
 {
     protected $model = Role::class;
 

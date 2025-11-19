@@ -4,27 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Usuario | Healthify</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: white;
-        }
-        .blank-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-        .content {
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
-    <div class="blank-page">
-        <div class="content">
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif;">
+        <div style="text-align: center;">
             <h1>Página de Edición</h1>
             <p>Formulario de edición para el usuario ID: {{ $user->id }}</p>
             <p>Esta página está intencionalmente en blanco.</p>

@@ -17,11 +17,26 @@
         </a>
     </x-slot>
 
-    {{-- Contenido temporal mientras se configura la tabla --}}
-    <div class="py-10">
-        <div class="bg-white rounded-xl shadow p-8 text-center text-gray-600">
-            <p class="text-lg">Aquí se mostrará la tabla de usuarios próximamente.</p>
+    {{-- Mensajes de éxito/error --}}
+    @if (session('success'))
+        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+            <div class="flex items-center">
+                <i class="fa-solid fa-circle-check mr-2"></i>
+                {{ session('success') }}
+            </div>
         </div>
-    </div>
+    @endif
+
+    @if (session('error'))
+        <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div class="flex items-center">
+                <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                {{ session('error') }}
+            </div>
+        </div>
+    @endif
+
+    {{-- Tabla Livewire --}}
+    @livewire('admin.data-tables.user-table')
 
 </x-admin-layout>
