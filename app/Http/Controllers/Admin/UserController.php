@@ -23,7 +23,29 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // Lógica para crear usuario (si necesitas)
+        $data = $request->validate([
+            'name' => 'required|string|min:3|max:244',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'id_number' => 'required|string|min:5|max:20|regex:/^[A-Za_z0-9\-]+$/|unique:users',
+            'phone' => 'required|digits_between:7,15',
+            'address' => 'required|string|min:3|max:255',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        $user = User::create($data);
+
+        $user->roles()->attach($data['role_id']);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Usuario creado',
+            'text' =>  'El usuario ha sido creado exitosamente'
+        ]);
+
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado correctamente.');
+
+
     }
 
     public function show(User $user)

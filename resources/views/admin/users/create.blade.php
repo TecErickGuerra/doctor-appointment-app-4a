@@ -1,22 +1,62 @@
 <x-admin-layout title="Crear usuario | Healthify" :breadcrumbs="[
-    [
-        'name' => 'Dashboard',
-        'href' => route('admin.dashboard')
-    ],
-    [
-        'name' => 'Usuarios',
-        'href' => route('admin.usuarios.index')
-    ],
-    [
-        'name' => 'Crear usuario'
-    ],
+    ['name' => 'Dashboard', 'href' => route('admin.dashboard')],
+    ['name' => 'Usuarios', 'href' => route('admin.usuarios.index')],
+    ['name' => 'Crear usuario'],
 ]">
 
-    <div class="py-10">
-        <div class="bg-white rounded-xl shadow p-8 text-center text-gray-700">
-            <h1 class="text-2xl font-semibold mb-4">Crear usuario</h1>
-            <p class="text-gray-500">Aquí se mostrará el formulario próximamente.</p>
-        </div>
-    </div>
+    <x-wire-card>
+        <form action="{{ route('admin.usuarios.store') }}" method="POST">
+            @csrf
 
+            <div class="space-y-4">
+                <div class="space-y-4">
+                    <div class="grid lg:grid-cols-2 gap-4">
+
+                <x-wire-input name="name" label="Nombre" required :value="old('name')"
+                    placeholder="Nombre" autocomplete="name" />
+
+                <x-wire-input name="email" label="Email" required :value="old('email')"
+                    placeholder="usuario@email.com" autocomplete="email" />
+
+                <x-wire-input name="password" label="Contraseña" type="password" required
+                    placeholder="Mínimo 8 carácteres" autocomplete="new-password" />
+
+                <x-wire-input name="password_confirmation" label="Confirmar contraseña" required
+                    :value="old('password_confirmation')" placeholder="Repita la contraseña"
+                    autocomplete="new-password" />
+
+                <x-wire-input name="id_number" label="Número de ID" required :value="old('id_number')"
+                    placeholder="Ej. 12345678" autocomplete="id_number" inputmode="numeric" />
+
+                <x-wire-input name="phone" label="Teléfono" required :value="old('phone')"
+                    placeholder="Ej. 12345678" autocomplete="tel" inputmode="tel" />
+                    
+                </div>
+
+                <x-wire-input name="address" label="Dirección" required :value="old('address')"
+                    placeholder="Ej. Calle 123" autocomplete="street-address" />
+
+                <div class="space-y-1">
+                    <x-wire-native-select name="role_id" label="Rol" required>
+                        <option value="">Selecciona un rol</option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}" @selected(old('role_id') == $role->id)>
+                                {{ $role->name }}
+                            </option>
+                        @endforeach
+                    </x-wire-native-select>
+
+                    <p class="text-sm text-gray-500">
+                        Define los permisos y accesos del usuario.
+                    </p>
+                </div>
+
+                <div class="flex justify-end">
+                    <x-wire-button type="submit">
+                        Guardar
+                    </x-wire-button>
+                </div>
+            </div>
+        </form>
+    </x-wire-card>
 </x-admin-layout>

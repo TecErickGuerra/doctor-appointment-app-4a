@@ -18,6 +18,6 @@
 
     {{-- Componente Livewire Table --}}
     <div class="py-6">
-        @livewire('admin-datatables-role-table')
+        @livewire('admin.data-tables.role-table')
     </div>
 </x-admin-layout>
