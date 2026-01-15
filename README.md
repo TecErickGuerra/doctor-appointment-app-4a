@@ -1,5 +1,5 @@
 # doctor-appointment-app-4a
-Proyecto de la materia Fundamentos de Arquitectura de Software y Desarrollo Backend
+Proyecto de la materia Devops y Seguridad
 
 Las configuraciones iniciales que se hicieron en el proyecto doctor-appointment-app-4a es que se modifico app.php para que el horario sea en america y merida.
 
