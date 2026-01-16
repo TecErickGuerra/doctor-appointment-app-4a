@@ -1,10 +1,10 @@
 <div class="flex items-center justify-center space-x-2">
-    {{-- Botón de Editar (Azul) --}}
-    <a href="#" 
-   class="inline-flex items-center justify-center w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors duration-200"
-   title="Editar usuario (en desarrollo)">
-    <i class="fa-solid fa-pen-to-square text-sm"></i>
-</a>
+    {{-- Botón de Editar (Azul) - CORREGIDO --}}
+    <a href="{{ route('admin.usuarios.edit', $user) }}" 
+       class="inline-flex items-center justify-center w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors duration-200"
+       title="Editar usuario">
+        <i class="fa-solid fa-pen-to-square text-sm"></i>
+    </a>
 
     {{-- Botón de Eliminar (Rojo) --}}
     <form action="{{ route('admin.usuarios.destroy', $user) }}" 

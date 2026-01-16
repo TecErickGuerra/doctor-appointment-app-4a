@@ -24,7 +24,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|min:3|max:244',
+            'name' => 'required|string|min:3|max:255',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'id_number' => 'required|string|min:5|max:20|regex:/^[A-Za_z0-9\-]+$/|unique:users',
@@ -45,7 +45,6 @@ class UserController extends Controller
 
         return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado correctamente.');
 
-
     }
 
     public function show(User $user)
@@ -61,40 +60,34 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        // Validación
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'id_number' => 'nullable|string|max:20',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:500',
-            'password' => 'nullable|min:8|confirmed',
-            'roles' => 'nullable|array',
+        $data = $request->validate([
+            'name' => 'required|string|min:3|max:255',
+            'email' => 'required|string|email|unique:users,email,' . $user->id,
+            'id_number' => 'required|string|min:5|max:20|regex:/^[A-Za_z0-9\-]+$/|unique:users,id_number,' . $user->id,
+            'phone' => 'required|digits_between:7,15',
+            'address' => 'required|string|min:3|max:255',
+            'role_id' => 'required|exists:roles,id',
         ]);
 
-        // Actualizar campos básicos
-        $user->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'id_number' => $validated['id_number'],
-            'phone' => $validated['phone'],
-            'address' => $validated['address'],
+        $user->update($data);
+
+        // Si el usuario quiere editar su contraseña, que lo guarde
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+            $user->save();
+        }
+
+        $user->roles()->sync($data['role_id']);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Usuario actualizado',
+            'text' => 'El usuario ha sido actualizado exitosamente'
         ]);
 
-        // Actualizar contraseña si se proporcionó
-        if (!empty($validated['password'])) {
-            $user->update([
-                'password' => Hash::make($validated['password'])
-            ]);
-        }
+        return redirect()->route('admin.usuarios.edit', $user->id)->with('success', 'Usuario actualizado correctamente.');
 
-        // Sincronizar roles
-        if (isset($validated['roles'])) {
-            $user->syncRoles($validated['roles']);
-        }
 
-        return redirect()->route('admin.usuarios.index')
-            ->with('success', 'Usuario actualizado correctamente.');
     }
 
     public function destroy(User $user)
