@@ -92,15 +92,18 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // Evitar que el usuario se elimine a sí mismo
-        if ($user->id === auth()->id()) {
-            return redirect()->route('admin.usuarios.index')
-                ->with('error', 'No puedes eliminar tu propio usuario.');
-        }
+        // Eliminar roles asociados a un usuario
+        $user->roles()->detach();
 
+        // Eliminar el usuario
         $user->delete();
 
-        return redirect()->route('admin.usuarios.index')
-            ->with('success', 'Usuario eliminado correctamente.');
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Usuario eliminado',
+            'text' => 'El usuario ha sido eliminado exitosamente'
+        ]);
+
+        return redirect()->route('admin.usuarios.index');
     }
 }
