@@ -39,4 +39,16 @@
     {{-- Tabla Livewire --}}
     @livewire('admin.data-tables.user-table')
 
+    {{-- SweetAlert --}}
+    @if (session('swal'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: '{{ session('swal.icon') }}',
+                title: '{{ session('swal.title') }}',
+                text: '{{ session('swal.text') }}'
+            });
+        </script>
+    @endif
+    
 </x-admin-layout>
