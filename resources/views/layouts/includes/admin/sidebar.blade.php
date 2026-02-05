@@ -16,6 +16,18 @@
       'href' => route('admin.roles.index'),
       'active' => request()->routeIs('admin.roles.index'),
     ],
+    [
+      'name' => 'Usuarios',
+      'icon' => 'fa-solid fa-users',
+      'href' => route('admin.users.index'),
+      'active' => request()->routeIs('admin.users.index'),
+    ],
+    [
+      'name' => 'Pacientes',
+      'icon' => 'fa-solid fa-user-injured',
+      'href' => route('admin.patients.index'),
+      'active' => request()->routeIs('admin.patients.index'),
+    ],
   ];
 @endphp
 
@@ -55,11 +67,21 @@
 
       <!-- Solo Usuarios (NUEVO) -->
       <li>
-        <a href="{{ route('admin.usuarios.index') }}" 
-           class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group 
-           {{ request()->routeIs('admin.usuarios.*') ? 'bg-gray-100' : '' }}">
+        <a href="{{ route('admin.users.index') }}"
+          class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group 
+          {{ request()->routeIs('admin.users.*') ? 'bg-gray-100' : '' }}">
           <i class="fa-solid fa-users w-5 h-5 text-gray-500"></i>
           <span class="ml-3">Usuarios</span>
+        </a>
+      </li>
+
+      <!-- Solo Pacientes (NUEVO) -->
+      <li>
+        <a href="{{ route('admin.patients.index') }}" 
+           class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group 
+           {{ request()->routeIs('admin.patients.*') ? 'bg-gray-100' : '' }}">
+          <i class="fa-solid fa-user-injured w-5 h-5 text-gray-500"></i>
+          <span class="ml-3">Pacientes</span>
         </a>
       </li>
 
