@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\TestController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DoctorController;
 
 Route::redirect('/', '/admin');
 
@@ -30,6 +31,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/usuarios/{user}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
     Route::put('/usuarios/{user}', [UserController::class, 'update'])->name('usuarios.update');
     Route::delete('/usuarios/{user}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+
+    // Rutas de doctores
+    Route::resource('doctors', DoctorController::class);
 });
 
 Route::middleware([
