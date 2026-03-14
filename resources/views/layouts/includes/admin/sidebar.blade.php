@@ -95,6 +95,16 @@
         </a>
       </li>
 
+      <!-- Módulo de Citas -->
+      <li>
+        <a href="{{ route('admin.appointments.index') }}" 
+           class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group 
+           {{ request()->routeIs('admin.appointments.*') ? 'bg-gray-100' : '' }}">
+          <i class="fa-regular fa-calendar-check w-5 h-5 text-gray-500"></i>
+          <span class="ml-3">Citas Médicas</span>
+        </a>
+      </li>
+
     </ul>
   </div>
 </aside>

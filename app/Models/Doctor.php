@@ -17,4 +17,16 @@ class Doctor extends Model
         'biografia',
         'foto_perfil',
     ];
+
+    // Relación uno a uno inversa con User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Relación uno a muchos con Appointments
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }
