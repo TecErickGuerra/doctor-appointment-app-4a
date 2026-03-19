@@ -20,6 +20,21 @@
             </div>
 
             <div class="mt-4">
+                <x-label for="id_number" value="Número de Identificación" />
+                <x-input id="id_number" class="block mt-1 w-full" type="text" name="id_number" :value="old('id_number')" required />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="phone" value="Teléfono" />
+                <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="address" value="Dirección" />
+                <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
+            </div>
+
+            <div class="mt-4">
                 <x-label for="password" value="{{ __('Password') }}" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
