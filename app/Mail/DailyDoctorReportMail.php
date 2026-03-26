@@ -31,7 +31,7 @@ class DailyDoctorReportMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Tu Agenda Médica de Hoy - ' . now()->toDateString(),
+            subject: 'Su Agenda del Día - Healthify',
         );
     }
 

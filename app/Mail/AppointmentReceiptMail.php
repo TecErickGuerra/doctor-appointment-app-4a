@@ -2,15 +2,12 @@
 
 namespace App\Mail;
 
-use App\Models\Appointment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Queue\SerializesModels;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class AppointmentReceiptMail extends Mailable
 {
@@ -21,7 +18,7 @@ class AppointmentReceiptMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(Appointment $appointment)
+    public function __construct($appointment)
     {
         $this->appointment = $appointment;
     }
@@ -42,7 +39,7 @@ class AppointmentReceiptMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.receipt',
+            markdown: 'emails.receipt',
         );
     }
 
@@ -53,12 +50,12 @@ class AppointmentReceiptMail extends Mailable
      */
     public function attachments(): array
     {
-        $pdf = Pdf::loadView('pdf.appointment-receipt', [
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.appointment-receipt', [
             'appointment' => $this->appointment
         ]);
 
         return [
-            Attachment::fromData(fn () => $pdf->output(), 'comprobante-cita.pdf')
+            \Illuminate\Mail\Mailables\Attachment::fromData(fn () => $pdf->output(), 'comprobante-cita.pdf')
                 ->withMime('application/pdf'),
         ];
     }

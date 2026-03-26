@@ -3,8 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Appointment;
-use App\Mail\AppointmentReceiptMail;
-use Illuminate\Support\Facades\Mail;
 
 class AppointmentObserver
 {
@@ -13,15 +11,24 @@ class AppointmentObserver
      */
     public function created(Appointment $appointment): void
     {
-        $patientEmail = $appointment->patient->user->email ?? null;
-        $doctorEmail = $appointment->doctor->email ?? ($appointment->doctor->user->email ?? null);
+        $emails = [];
 
-        // Agrupar ambos correos para enviar un solo email a dos destinatarios
-        // Esto evita tener que hacer 2 envíos seguidos y saltamos la restricción de Mailtrap
-        $recipients = array_filter([$patientEmail, $doctorEmail]);
+        // Email del paciente (vía User)
+        if ($appointment->patient && $appointment->patient->user && $appointment->patient->user->email) {
+            $emails[] = $appointment->patient->user->email;
+        }
 
-        if (!empty($recipients)) {
-            Mail::to($recipients)->send(new AppointmentReceiptMail($appointment));
+        // Email del doctor (columna directa o vía User)
+        if ($appointment->doctor) {
+            if ($appointment->doctor->email) {
+                $emails[] = $appointment->doctor->email;
+            } elseif ($appointment->doctor->user && $appointment->doctor->user->email) {
+                $emails[] = $appointment->doctor->user->email;
+            }
+        }
+
+        if (!empty($emails)) {
+            \Illuminate\Support\Facades\Mail::to($emails)->send(new \App\Mail\AppointmentReceiptMail($appointment));
         }
     }
 
