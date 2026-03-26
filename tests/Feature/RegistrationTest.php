@@ -25,11 +25,14 @@ test('new users can register', function () {
         'email' => 'test@example.com',
         'password' => 'password',
         'password_confirmation' => 'password',
+        'id_number' => 'TEST-12345',
+        'phone' => '1234567890',
+        'address' => 'Test Street 123',
         'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect('/');
 })->skip(function () {
     return ! Features::enabled(Features::registration());
 }, 'Registration support is not enabled.');
