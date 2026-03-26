@@ -25,15 +25,20 @@ Schedule::call(function () {
     $adminEmail = env('ADMIN_EMAIL', 'admin@hospital.com');
     Mail::to($adminEmail)->send(new DailyAdminReportMail($appointmentsToday));
 
+    // Usar pausa de 5 segundos para el entorno completamente restrictivo de Sandbox (Mailtrap)
+    sleep(5);
+
     // 2. Reportes para cada Doctor
     $appointmentsByDoctor = $appointmentsToday->groupBy('doctor_id');
 
     foreach ($appointmentsByDoctor as $doctorId => $appointments) {
         $doctor = Doctor::find($doctorId);
+        // Usar la comprobación segura de email que venía de master
         $doctorEmail = $doctor->email ?? ($doctor->user->email ?? null);
 
         if ($doctorEmail) {
             Mail::to($doctorEmail)->send(new DailyDoctorReportMail($doctor, $appointments));
+            sleep(5); // Pausa de 5 seg por iteración
         }
     }
-})->dailyAt('08:00');
+})->everyMinute();
