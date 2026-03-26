@@ -35,9 +35,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Rutas de doctores
     Route::resource('doctors', DoctorController::class);
 
-    // Rutas de pacientes
-    Route::get('/patients/import', \App\Livewire\Admin\Patients\ImportComponent::class)->name('patients.import');
-
     // Rutas de Citas
     Route::resource('appointments', App\Http\Controllers\Admin\AppointmentController::class);
     Route::get('appointments/{appointment}/consultation', \App\Livewire\Admin\ConsultationManager::class)->name('appointments.consultation');

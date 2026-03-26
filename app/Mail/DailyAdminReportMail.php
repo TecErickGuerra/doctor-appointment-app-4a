@@ -29,7 +29,7 @@ class DailyAdminReportMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reporte Diario de Citas - ' . now()->toDateString(),
+            subject: 'Reporte Diario de Citas - Administrador',
         );
     }
 
