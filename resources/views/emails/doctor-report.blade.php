@@ -1,20 +1,18 @@
-@component('mail::message')
-# Tu Agenda Médica de Hoy
+<x-mail::message>
+# Hola Dr. {{ $doctor->nombre ?? '' }} {{ $doctor->apellido ?? '' }},
 
-Hola Dr. {{ $doctor->nombre ?? '' }} {{ $doctor->apellido ?? '' }},
+Este es el resumen de sus pacientes agendados para hoy, {{ now()->format('d/m/Y') }}:
 
-A continuación, te presentamos tus citas programadas para el día de hoy:
-
-@component('mail::table')
+<x-mail::table>
 | Hora | Paciente | Motivo |
 | :--- | :------- | :----- |
 @foreach($appointments as $appointment)
 | {{ \Carbon\Carbon::parse($appointment->start_time)->format('H:i') }} | {{ $appointment->patient->user->name ?? 'N/A' }} | {{ Str::limit($appointment->reason ?? 'No especificado', 30) }} |
 @endforeach
-@endcomponent
+</x-mail::table>
 
-Que tengas un excelente día de consulta.
+¡Que tenga una excelente jornada de consulta!
 
 Gracias,<br>
-{{ config('app.name') }}
-@endcomponent
+Sistema {{ config('app.name', 'Healthify') }}
+</x-mail::message>

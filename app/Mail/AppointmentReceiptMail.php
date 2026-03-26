@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\Appointment;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -52,10 +53,12 @@ class AppointmentReceiptMail extends Mailable
      */
     public function attachments(): array
     {
-        $pdf = Pdf::loadView('pdf.appointment-receipt', ['appointment' => $this->appointment]);
+        $pdf = Pdf::loadView('pdf.appointment-receipt', [
+            'appointment' => $this->appointment
+        ]);
 
         return [
-            Attachment::fromData(fn () => $pdf->output(), 'recibo-cita.pdf')
+            Attachment::fromData(fn () => $pdf->output(), 'comprobante-cita.pdf')
                 ->withMime('application/pdf'),
         ];
     }

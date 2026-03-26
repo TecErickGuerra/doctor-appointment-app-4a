@@ -1,24 +1,24 @@
-@component('mail::message')
-# Reporte Diario de Citas
+<x-mail::message>
+# Reporte Diario de Citas - Administrador
 
-Hola Administrador,
+Lista de citas programadas para hoy, {{ now()->format('d/m/Y') }}:
 
-Este es el resumen de todas las citas agendadas para el día de hoy en la clínica:
-
-@component('mail::table')
-| Hora | Doctor | Paciente | Motivo |
-| :--- | :----- | :------- | :----- |
+<x-mail::table>
+| Hora | Paciente | Doctor | Motivo |
+| :--- | :------- | :----- | :----- |
 @foreach($appointments as $appointment)
-| {{ \Carbon\Carbon::parse($appointment->start_time)->format('H:i') }} | Dr. {{ $appointment->doctor->nombre ?? '' }} | {{ $appointment->patient->user->name ?? 'N/A' }} | {{ Str::limit($appointment->reason ?? '-', 20) }} |
+| {{ \Carbon\Carbon::parse($appointment->start_time)->format('H:i') }} | {{ $appointment->patient->user->name ?? 'N/A' }} | Dr. {{ $appointment->doctor->nombre ?? '' }} | {{ Str::limit($appointment->reason ?? '-', 20) }} |
 @endforeach
-@endcomponent
+</x-mail::table>
 
-Para ver más detalles, por favor ingresa al panel de control.
+Total de citas agendadas: {{ $appointments->count() }}
 
-@component('mail::button', ['url' => config('app.url') . '/admin/appointments'])
+Para ver más detalles o gestionar cancelaciones, por favor ingresa al panel de control.
+
+<x-mail::button :url="config('app.url') . '/admin/appointments'">
 Ver Todas las Citas
-@endcomponent
+</x-mail::button>
 
-Saludos,<br>
-El Sistema {{ config('app.name') }}
-@endcomponent
+Gracias,<br>
+Sistema {{ config('app.name', 'Healthify') }}
+</x-mail::message>

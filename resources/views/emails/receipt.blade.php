@@ -1,17 +1,16 @@
-<div>
-    Hola,
+<x-mail::message>
+# Hola {{ $appointment->patient->user->name ?? 'N/A' }},
 
-    Se ha generado un nuevo <strong>Comprobante de Cita Médica</strong>.
+Tu cita médica ha sido agendada con éxito.
 
-    <ul>
-        <li><strong>Fecha:</strong> {{ \Carbon\Carbon::parse($appointment->date)->format('d/m/Y') }}</li>
-        <li><strong>Hora:</strong> {{ \Carbon\Carbon::parse($appointment->start_time)->format('h:i A') }}</li>
-        <li><strong>Paciente:</strong> {{ $appointment->patient->user->name ?? 'N/A' }}</li>
-        <li><strong>Doctor:</strong> {{ $appointment->doctor->nombre ?? 'N/A' }} {{ $appointment->doctor->apellido ?? '' }}</li>
-    </ul>
+**Detalles de la cita:**
+- **Doctor:** Dr. {{ $appointment->doctor->nombre ?? 'N/A' }} {{ $appointment->doctor->apellido ?? '' }}
+- **Especialidad:** {{ $appointment->doctor->especialidad ?? 'General' }}
+- **Fecha:** {{ \Carbon\Carbon::parse($appointment->date)->format('d/m/Y') }}
+- **Hora:** {{ \Carbon\Carbon::parse($appointment->start_time)->format('h:i A') }}
 
-    Por favor, encuentra adjunto a este correo el comprobante oficial en formato PDF.
+Adjunto encontrarás el comprobante en PDF para tu referencia.
 
-    Gracias,<br>
-    El equipo de Healthify
-</div>
+Gracias,<br>
+El equipo de {{ config('app.name', 'Healthify') }}
+</x-mail::message>
