@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class DailyAdminReportMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $appointments;
+
+    /**
+     * Create a new message instance.
+     */
+    public function __construct($appointments)
+    {
+        $this->appointments = $appointments;
+    }
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'Reporte Diario de Citas - ' . now()->toDateString(),
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            markdown: 'emails.admin-report',
+        );
+    }
+}
